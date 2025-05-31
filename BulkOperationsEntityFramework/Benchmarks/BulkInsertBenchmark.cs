@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Bogus;
+using BulkOperationsEntityFramework.Helpers;
 using BulkOperationsEntityFramework.Models;
 using Dapper;
 using System.Configuration;
@@ -82,6 +83,17 @@ namespace BulkOperationsEntityFramework.Benchmarks
                 await connection.ExecuteAsync(sql, users);
             }
         }
+
+        [Benchmark(Description = "SqlBulkCopy - Uses SqlBulkCopy to insert the users. Results in one round-trip to database")]  
+        public async Task SqlBulkCopy()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                await context.BulkInsertAsync(GetUsers(), "Users");
+            }
+        }
+
+
 
         private User[] GetUsers() =>
             Enumerable.Range(1, Size).Select(i => new User

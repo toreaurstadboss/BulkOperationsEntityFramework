@@ -180,6 +180,9 @@
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Benchmarks\BulkInsertBenchmark.cs" />
+    <Compile Include="Helpers\BulkIgnoreAttribute.cs" />
+    <Compile Include="Helpers\DatatableExtensions.cs" />
+    <Compile Include="Helpers\BulkInsertExtensions.cs" />
     <Compile Include="Migrations\202505312054150_Users.cs" />
     <Compile Include="Migrations\202505312054150_Users.Designer.cs">
       <DependentUpon>202505312054150_Users.cs</DependentUpon>
@@ -203,6 +206,7 @@
       <DependentUpon>202505312054150_Users.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
