@@ -1,6 +1,6 @@
 ﻿namespace BulkOperationsEntityFramework.Models
 {
-    
+
     public class User
     {
 

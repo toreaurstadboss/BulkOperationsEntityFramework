@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BenchmarkDotNet.Running;
 
 namespace BulkOperationsEntityFramework
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            // Run the benchmarks in this project (assembly)
+            var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
         }
     }
 }

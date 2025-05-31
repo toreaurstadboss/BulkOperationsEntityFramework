@@ -9,7 +9,7 @@ namespace BulkOperationsEntityFramework
     {
 
         public ApplicationDbContext() : base("name=App")
-        {            
+        {
         }
 
         public DbSet<User> Users { get; set; }
