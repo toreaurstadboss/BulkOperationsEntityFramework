@@ -17,7 +17,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
 
         private static readonly Faker Faker = new Faker();
 
-        [Params(100)]
+        [Params(1000)]
         public int Size { get; set; }
 
         //First benchmark - Naive approach - add one and one entity and save changes everytime with round trip to database

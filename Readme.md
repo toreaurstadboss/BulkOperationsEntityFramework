@@ -18,3 +18,12 @@ to save a batch of entities to the database. We want the best speed and least am
 BechmarkDotNet clearly shows the winner after running the benchmarks. Vary the _Param_ of the batch to test it out yourself.
 
 
+### BenchmarkDotNet results 
+
+The following shows the results for the BulkInsert benchmark with a batch size of 1000.
+![EFSqlBulkCopy1000.png](EFSqlBulkCopy1000.png)
+
+
+<br />
+
+**Last update: 02. June 2025**
