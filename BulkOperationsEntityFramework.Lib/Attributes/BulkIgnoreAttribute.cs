@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BulkOperationsEntityFramework.Helpers
+namespace BulkOperationsEntityFramework.Lib.Attributes
 {
 
     /// <summary>

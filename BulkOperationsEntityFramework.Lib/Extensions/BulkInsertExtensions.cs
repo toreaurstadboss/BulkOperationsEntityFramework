@@ -4,10 +4,9 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-
-namespace BulkOperationsEntityFramework.Helpers
+namespace BulkOperationsEntityFramework.Lib.Extensions
 {
-  
+
     /// <summary>
     /// Provides extension methods for performing bulk insert operations using SqlBulkCopy.
     /// </summary>
@@ -73,11 +72,13 @@ namespace BulkOperationsEntityFramework.Helpers
         /// </code>
         /// </example>
         /// </param>
-        public static void BulkInsert<T>(this DbContext context, IEnumerable<T> entities, string tableName = null, Dictionary<string, string> columnMappings = null)
+        /// <param name="bulkCopyTimout">The bulk copy timeout in seconds. Default is set to 30.</param>
+        public static void BulkInsert<T>(this DbContext context, IEnumerable<T> entities, string tableName = null,
+            Dictionary<string, string> columnMappings = null, int bulkCopyTimeout = 30)
             where T : class
         {
-            var dataTable = entities.ToBulkDataTable(columnMappings, out var mappings);
-            BulkCopy(context, dataTable, tableName ?? typeof(T).Name, mappings);
+            var dataTable = entities.ToBulkDataTable(columnMappings, out var finalMappings);
+            BulkCopy(context, dataTable, tableName ?? typeof(T).Name, finalMappings, bulkCopyTimeout);
         }
 
         /// <summary>
@@ -140,14 +141,17 @@ namespace BulkOperationsEntityFramework.Helpers
         /// </code>
         /// </example>
         /// </param>
-        public static async Task BulkInsertAsync<T>(this DbContext context, IEnumerable<T> entities, string tableName = null, Dictionary<string, string> columnMappings = null)
+        /// <param name="bulkCopyTimout">The bulk copy timeout in seconds. Default is set to 30.</param>
+        public static async Task BulkInsertAsync<T>(this DbContext context, IEnumerable<T> entities, string tableName = null,
+            Dictionary<string, string> columnMappings = null, int bulkCopyTimout = 30)
             where T : class
         {
-            var dataTable = entities.ToBulkDataTable(columnMappings, out var mappings);
-            await BulkCopyAsync(context, dataTable, tableName ?? typeof(T).Name, mappings);
+            var dataTable = entities.ToBulkDataTable(columnMappings, out var finalMappings);
+            await BulkCopyAsync(context, dataTable, tableName ?? typeof(T).Name, finalMappings, 30);
         }
 
-        private static void BulkCopy(DbContext context, DataTable table, string tableName, Dictionary<string, string> mappings)
+        private static void BulkCopy(DbContext context, DataTable table, string tableName,
+            Dictionary<string, string> finalMappings, int bulkCopyTimeout = 30)
         {
             var connection = (SqlConnection)context.Database.Connection;
             var wasClosed = connection.State == ConnectionState.Closed;
@@ -158,7 +162,9 @@ namespace BulkOperationsEntityFramework.Helpers
             using (var bulkCopy = new SqlBulkCopy(connection))
             {
                 bulkCopy.DestinationTableName = tableName;
-                foreach (var map in mappings)
+                bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
+
+                foreach (var map in finalMappings)
                 {
                     bulkCopy.ColumnMappings.Add(map.Key, map.Value);
                 }
@@ -166,10 +172,11 @@ namespace BulkOperationsEntityFramework.Helpers
             }
 
             if (wasClosed)
-                connection.Close();
+                connection.Close(); // Ensure the connection is closed after the operation, if it was closed before
         }
 
-        private static async Task BulkCopyAsync(DbContext context, DataTable table, string tableName, Dictionary<string, string> mappings)
+        private static async Task BulkCopyAsync(DbContext context, DataTable table, string tableName, Dictionary<string, string> mappings,
+            int bulkCopyTimeout = 30)
         {
             var connection = (SqlConnection)context.Database.Connection;
             var wasClosed = connection.State == ConnectionState.Closed;
@@ -180,6 +187,7 @@ namespace BulkOperationsEntityFramework.Helpers
             using (var bulkCopy = new SqlBulkCopy(connection))
             {
                 bulkCopy.DestinationTableName = tableName;
+                bulkCopy.BulkCopyTimeout = bulkCopyTimeout;
                 foreach (var map in mappings)
                 {
                     bulkCopy.ColumnMappings.Add(map.Key, map.Value);
@@ -188,7 +196,7 @@ namespace BulkOperationsEntityFramework.Helpers
             }
 
             if (wasClosed)
-                connection.Close();
+                connection.Close();  //Ensure the connection is closed after the operation, if it was closed before
         }
     }
 }

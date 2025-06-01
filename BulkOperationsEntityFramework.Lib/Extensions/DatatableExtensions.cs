@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using BulkOperationsEntityFramework.Lib.Attributes;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System;
 
-namespace BulkOperationsEntityFramework.Helpers
+namespace BulkOperationsEntityFramework.Lib.Extensions
 {
-   
+
     public static class DatatableExtensions
     {
 

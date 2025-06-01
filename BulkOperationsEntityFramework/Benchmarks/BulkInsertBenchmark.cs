@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Bogus;
-using BulkOperationsEntityFramework.Helpers;
+using BulkOperationsEntityFramework.Lib.Extensions;
 using BulkOperationsEntityFramework.Models;
 using Dapper;
 using System.Configuration;
@@ -84,7 +84,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
             }
         }
 
-        [Benchmark(Description = "SqlBulkCopy - Uses SqlBulkCopy to insert the users. Results in one round-trip to database")]  
+        [Benchmark(Description = "SqlBulkCopy - Uses SqlBulkCopy to insert the users. Results in one round-trip to database")]
         public async Task SqlBulkCopy()
         {
             using (var context = new ApplicationDbContext())
