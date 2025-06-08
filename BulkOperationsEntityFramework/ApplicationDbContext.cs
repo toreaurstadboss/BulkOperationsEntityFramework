@@ -10,10 +10,10 @@ namespace BulkOperationsEntityFramework
     public class ApplicationDbContext : DbContext
     {
 
-        //static ApplicationDbContext()
-        //{
-        //    DbInterception.Add(new SerilogCommandInterceptor());
-        //}
+        static ApplicationDbContext()
+        {
+            DbInterception.Add(new SerilogCommandInterceptor());
+        }
 
         public ApplicationDbContext() : base("name=App")
         {

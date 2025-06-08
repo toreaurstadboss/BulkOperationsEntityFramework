@@ -74,8 +74,14 @@ namespace BulkOperationsEntityFramework.Test
             //logs will be kept or a maximum number of 21 days or specified number of days
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Is(logLevel)
-                .WriteTo.File(logPath, rollingInterval: logInterval, rollOnFileSizeLimit: true,
-                    fileSizeLimitBytes: 500 * 1000 * 1000, retainedFileCountLimit: retainedCount)
+                .WriteTo.File(
+                    logPath, 
+                    rollingInterval: logInterval, 
+                    rollOnFileSizeLimit: true,
+                    fileSizeLimitBytes: 500 * 1000 * 1000,
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [SQL] {Message:lj}{NewLine}",
+                    retainedFileCountLimit: retainedCount
+                )
                 .CreateLogger();
 
             _isInitialized = true;
@@ -84,18 +90,20 @@ namespace BulkOperationsEntityFramework.Test
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) { }
 
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) =>
-            Log.Information("Executing NonQuery: {CommandText}", command.CommandText);
+            Log.Information("{Sql}", CompactSql(command.CommandText));
 
         public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) { }
 
         public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) =>
-            Log.Information("Executing Reader: {CommandText}", command.CommandText);
+            Log.Information("{Sql}", CompactSql(command.CommandText));
 
         public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) { }
 
         public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) =>
-            Log.Information("Executing Scalar: {CommandText}", command.CommandText);
+            Log.Information("{Sql}", CompactSql(command.CommandText));
 
+        private string CompactSql(string sql) =>
+            sql.Replace(Environment.NewLine, " ").Replace("\n", "").Replace("\r", " ").Trim();
 
     }
 }

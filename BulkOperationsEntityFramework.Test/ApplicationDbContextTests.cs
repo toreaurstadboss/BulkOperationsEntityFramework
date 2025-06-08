@@ -25,6 +25,9 @@ namespace BulkOperationsEntityFramework.Test
                 var user = context.Users.FirstOrDefault();
                 //Assert.Inconclusive("Check test output");
                 Assert.That(user, Is.Not.Null, "User should not be null");
+
+                var userById = context.Users.Find(2);
+                Assert.That(userById, Is.Not.Null, "User by id should not be null");
             }
         }
 
