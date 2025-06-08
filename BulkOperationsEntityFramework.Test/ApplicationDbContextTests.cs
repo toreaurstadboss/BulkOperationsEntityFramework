@@ -18,6 +18,16 @@ namespace BulkOperationsEntityFramework.Test
     {
 
         [Test]
+        public void CanLogWithoutLogProperty()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var user = context.Users.FirstOrDefault();
+                Assert.Inconclusive("Check test output");
+            }
+        }
+
+        [Test]
         public void CanLogDatabaseModificationsEfGeneratedSql()
         {
             using (var context = new ApplicationDbContext())
