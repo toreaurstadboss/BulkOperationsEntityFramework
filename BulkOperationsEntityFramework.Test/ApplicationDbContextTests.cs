@@ -23,7 +23,8 @@ namespace BulkOperationsEntityFramework.Test
             using (var context = new ApplicationDbContext())
             {
                 var user = context.Users.FirstOrDefault();
-                Assert.Inconclusive("Check test output");
+                //Assert.Inconclusive("Check test output");
+                Assert.That(user, Is.Not.Null, "User should not be null");
             }
         }
 
