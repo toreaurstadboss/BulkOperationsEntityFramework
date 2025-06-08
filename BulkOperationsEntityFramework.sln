@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{02EA681E-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkOperationsEntityFramework.Lib", "BulkOperationsEntityFramework.Lib\BulkOperationsEntityFramework.Lib.csproj", "{C45373C2-D139-476B-9EC8-1F2442912458}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkOperationsEntityFramework.Test", "BulkOperationsEntityFramework.Test\BulkOperationsEntityFramework.Test.csproj", "{CEA86012-D182-44CB-A775-B0E366745229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C45373C2-D139-476B-9EC8-1F2442912458}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45373C2-D139-476B-9EC8-1F2442912458}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45373C2-D139-476B-9EC8-1F2442912458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA86012-D182-44CB-A775-B0E366745229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA86012-D182-44CB-A775-B0E366745229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA86012-D182-44CB-A775-B0E366745229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA86012-D182-44CB-A775-B0E366745229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
