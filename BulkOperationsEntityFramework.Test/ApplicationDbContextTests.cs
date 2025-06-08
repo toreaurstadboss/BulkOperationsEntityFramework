@@ -28,6 +28,18 @@ namespace BulkOperationsEntityFramework.Test
 
                 var userById = context.Users.Find(2);
                 Assert.That(userById, Is.Not.Null, "User by id should not be null");
+
+                userById.PhoneNumber = Faker.Phone.PhoneNumber();
+
+                var moreUsers = GetUsers(4);
+                context.Users.AddRange(moreUsers);
+
+                context.SaveChanges();
+
+                var lastAddedUser = moreUsers.Last();
+                context.Users.Remove(lastAddedUser);
+
+                context.SaveChanges();
             }
         }
 

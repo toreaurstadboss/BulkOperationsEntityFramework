@@ -90,20 +90,30 @@ namespace BulkOperationsEntityFramework.Test
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) { }
 
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) =>
-            Log.Information("{Sql}", CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
 
         public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) { }
 
         public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) =>
-            Log.Information("{Sql}", CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
 
         public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) { }
 
         public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) =>
-            Log.Information("{Sql}", CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
 
         private string CompactSql(string sql) =>
             sql.Replace(Environment.NewLine, " ").Replace("\n", "").Replace("\r", " ").Trim();
+
+
+        private string GetSqlTag(string sql)
+        {
+            if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase)) return "[SELECT]";
+            if (sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase)) return "[INSERT]";
+            if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase)) return "[UPDATE]";
+            if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase)) return "[DELETE]";
+            return "[SQL]";
+        }
 
     }
 }
