@@ -90,21 +90,26 @@ namespace BulkOperationsEntityFramework.Test
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) { }
 
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) =>
-            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactAndInterpolateSql(command));
 
         public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) { }
 
         public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) =>
-            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactAndInterpolateSql(command));
 
         public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) { }
 
         public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) =>
-            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactSql(command.CommandText));
+            Log.Information("{Tag} {Sql}", GetSqlTag(command.CommandText), CompactAndInterpolateSql(command));
+
+        private string CompactAndInterpolateSql(DbCommand dbCommand)
+        {
+            string sql = InterpolateSql(dbCommand);
+            return CompactSql(sql);
+        }
 
         private string CompactSql(string sql) =>
             sql.Replace(Environment.NewLine, " ").Replace("\n", "").Replace("\r", " ").Trim();
-
 
         private string GetSqlTag(string sql)
         {
@@ -114,6 +119,35 @@ namespace BulkOperationsEntityFramework.Test
             if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase)) return "[DELETE]";
             return "[SQL]";
         }
+
+        private string InterpolateSql(DbCommand dbCommand)
+        {
+            string sql = dbCommand.CommandText;
+            foreach (DbParameter parameter in dbCommand.Parameters)
+            {
+                string value = FormatParameterValue(parameter.Value);
+                sql = sql.Replace(parameter.ParameterName, value);
+            }
+            return sql;
+        }
+
+        private string FormatParameterValue(object value)
+        { 
+            if (value == null || value == DBNull.Value)
+            {
+                return "NULL";
+            }
+            if (value is string || value is DateTime || value is Guid)
+            {
+                return $"'{value}'"; // Wrap strings, DateTime, and Guid in single quotes
+            }
+            if (value is bool b)
+            {
+                return b ? "1" : "0";
+            }
+
+            return value.ToString();
+        }        
 
     }
 }
