@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,19 +60,55 @@ namespace BulkOperationsEntityFramework.Test
         }
 
         [Test]
-        public void CanLogDatabaseModifications()
+        [Ignore("This test should not be run in case of Benchmark has been run, as the target database table will contain many rows")]
+        public async Task TestAsyncFetchOfUsers()
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Database.Log = Console.Write; // Log SQL to console             
-                var users = GetUsers(1);
-                context.Users.AddRange(users);
-                context.SaveChanges();
-                var firstUser = context.Users.FirstOrDefault();
-                Console.WriteLine(JsonConvert.SerializeObject(firstUser));
-                Assert.Inconclusive("Check test output");
+                foreach (var i in Enumerable.Range(1, 1))
+                {
+                    var stopWatch = Stopwatch.StartNew();
+
+                    var user = await context.Users.FindAsync(i);
+                    Assert.That(user, Is.Not.Null);
+                    Console.WriteLine($"The test took: {stopWatch.ElapsedMilliseconds} ms");
+
+                }
             }
         }
+
+        [Test]
+        public async Task TestAsyncFetchOfListOfUsers()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                foreach (var i in Enumerable.Range(1, 1))
+                {
+                    var stopWatch = Stopwatch.StartNew();
+
+                    var users = await context.Users.ToListAsync();
+                    Assert.That(users, Is.Not.Null);
+                    Console.WriteLine($"The test took: {stopWatch.ElapsedMilliseconds} ms");
+
+                }
+            }
+        }
+
+        [Test]
+        public void CanLogDatabaseModifications()
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    context.Database.Log = Console.Write; // Log SQL to console             
+                    var users = GetUsers(1);
+                    context.Users.AddRange(users);
+                    context.SaveChanges();
+                    var firstUser = context.Users.FirstOrDefault();
+                    Console.WriteLine(JsonConvert.SerializeObject(firstUser));
+                    Assert.Inconclusive("Check test output");
+
+                }
+       }
 
         private static readonly Faker Faker = new Faker();
 
