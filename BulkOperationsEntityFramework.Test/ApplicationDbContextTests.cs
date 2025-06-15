@@ -68,6 +68,7 @@ namespace BulkOperationsEntityFramework.Test
         [Test]
         public void CanMockUserWithEf6Effort()
         {
+            Effort.Provider.EffortProviderConfiguration.RegisterProvider();
             // Create an in-memory connection for Effort  
             var connection = Effort.DbConnectionFactory.CreateTransient();
 
