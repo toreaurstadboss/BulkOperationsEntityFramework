@@ -191,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Attributes\SchemaAttribute.cs" />
     <Compile Include="Benchmarks\BulkInsertBenchmark.cs" />
     <Compile Include="Migrations\202505312054150_Users.cs" />
     <Compile Include="Migrations\202505312054150_Users.Designer.cs">
@@ -200,7 +201,18 @@
     <Compile Include="Migrations\202506152108171_MaxStringLengthSetTo255.Designer.cs">
       <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506152129419_ArchivedUser.cs" />
+    <Compile Include="Migrations\202506152129419_ArchivedUser.Designer.cs">
+      <DependentUpon>202506152129419_ArchivedUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202506152202006_Guest.cs" />
+    <Compile Include="Migrations\202506152202006_Guest.Designer.cs">
+      <DependentUpon>202506152202006_Guest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelBuilderExtensions.cs" />
+    <Compile Include="Models\Guest.cs" />
+    <Compile Include="Models\ArchivedUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\User.cs" />
@@ -220,6 +232,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202506152108171_MaxStringLengthSetTo255.resx">
       <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506152129419_ArchivedUser.resx">
+      <DependentUpon>202506152129419_ArchivedUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506152202006_Guest.resx">
+      <DependentUpon>202506152202006_Guest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

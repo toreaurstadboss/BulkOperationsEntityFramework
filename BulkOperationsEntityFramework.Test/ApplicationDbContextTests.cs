@@ -66,6 +66,7 @@ namespace BulkOperationsEntityFramework.Test
         }
 
         [Test]
+        [NonParallelizable] // Ensure this test runs sequentially to avoid conflicts with the in-memory database
         public void CanMockUserWithEf6Effort()
         {
             Effort.Provider.EffortProviderConfiguration.RegisterProvider();

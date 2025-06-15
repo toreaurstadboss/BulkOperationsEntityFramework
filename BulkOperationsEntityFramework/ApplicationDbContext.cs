@@ -1,11 +1,14 @@
-﻿using BulkOperationsEntityFramework.Models;
+﻿using BulkOperationsEntityFramework.Attributes;
+using BulkOperationsEntityFramework.Models;
 using BulkOperationsEntityFramework.Test;
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
+using System.Reflection;
 
 namespace BulkOperationsEntityFramework
 {
@@ -31,12 +34,22 @@ namespace BulkOperationsEntityFramework
 
         public virtual DbSet<User> Users { get; set; }
 
+        public DbSet<ArchivedUser> ArchivedUsers { get; set; }
+
+        public DbSet<Guest> ArchivedGuests { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(255)); // Set max length for all string properties
+
+            modelBuilder.ApplyCustomCodeConventions(this); // Apply custom code conventions based on DbSet types. Pass in db context.
+
+            //modelBuilder.Types().Where(p => p.GetCustomAttributes(false).OfType<SchemaAttribute>().Any())
+            //    .Configure(t => t.ToTable(t.ClrType.Name, t.ClrType.GetCustomAttribute<SchemaAttribute>().SchemaName ?? "dbo")); //add support for setting Schema via Schema attribute using custom code convention
+
         }
 
     }
