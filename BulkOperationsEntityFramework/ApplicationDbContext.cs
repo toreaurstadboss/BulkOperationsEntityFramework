@@ -35,6 +35,8 @@ namespace BulkOperationsEntityFramework
         {
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(255)); // Set max length for all string properties
         }
 
     }

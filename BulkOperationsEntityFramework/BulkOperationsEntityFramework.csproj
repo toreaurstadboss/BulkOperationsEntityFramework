@@ -196,6 +196,10 @@
     <Compile Include="Migrations\202505312054150_Users.Designer.cs">
       <DependentUpon>202505312054150_Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506152108171_MaxStringLengthSetTo255.cs" />
+    <Compile Include="Migrations\202506152108171_MaxStringLengthSetTo255.Designer.cs">
+      <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -213,6 +217,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202505312054150_Users.resx">
       <DependentUpon>202505312054150_Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506152108171_MaxStringLengthSetTo255.resx">
+      <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
