@@ -1,11 +1,13 @@
 ﻿using Bogus;
 using BulkOperationsEntityFramework.Models;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
@@ -45,6 +47,56 @@ namespace BulkOperationsEntityFramework.Test
             }
         }
 
+        [Test]
+        public void CanMockUser()
+        {
+            var mockContext = new Mock<ApplicationDbContext>();
+            mockContext.Setup(x => x.Users.Find(It.IsAny<int>())).Returns(new User
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "MyUser"
+
+            });
+
+            var user = mockContext.Object.Users.Find(12);
+            Assert.That(user, Is.Not.Null, "Mocked user should not be null");
+            Assert.That(user.FirstName, Is.EqualTo("Test"), "First name should be 'Test'");
+            Assert.That(user.LastName, Is.EqualTo("MyUser"), "Last name should be 'MyUser'");
+        }
+
+        [Test]
+        public void CanMockUserWithEf6Effort()
+        {
+            // Create an in-memory connection for Effort  
+            var connection = Effort.DbConnectionFactory.CreateTransient();
+
+            // Use the connection in your context  
+            using (var context = new ApplicationDbContext(connection))
+            {
+                DbInterception.Remove(new SerilogCommandInterceptor()); // Remove the interceptor to avoid logging in Effort
+
+                // Seed data  
+                context.Users.Add(new User
+                {
+                    Id = 1,
+                    FirstName = "Test",
+                    LastName = "MyUser"
+                });
+                context.SaveChanges();
+
+                // Act  
+                var user = context.Users.Find(1);
+
+                // Assert  
+                Assert.That(user, Is.Not.Null, "Mocked user should not be null");
+                Assert.That(user.FirstName, Is.EqualTo("Test"), "First name should be 'Test'");
+                Assert.That(user.LastName, Is.EqualTo("MyUser"), "Last name should be 'MyUser'");
+
+                Console.WriteLine($"Number of users in in-memory db: {context.Users.Count()}");
+            }
+        }
+           
         [Test]
         public void CanLogDatabaseModificationsEfGeneratedSql()
         {
