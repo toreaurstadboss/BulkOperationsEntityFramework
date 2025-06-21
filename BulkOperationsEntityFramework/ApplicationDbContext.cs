@@ -1,14 +1,11 @@
-﻿using BulkOperationsEntityFramework.Attributes;
-using BulkOperationsEntityFramework.Models;
+﻿using BulkOperationsEntityFramework.Models;
 using BulkOperationsEntityFramework.Test;
 using System;
-using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
-using System.Reflection;
 
 namespace BulkOperationsEntityFramework
 {

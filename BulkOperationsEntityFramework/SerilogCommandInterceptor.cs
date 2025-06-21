@@ -75,8 +75,8 @@ namespace BulkOperationsEntityFramework.Test
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Is(logLevel)
                 .WriteTo.File(
-                    logPath, 
-                    rollingInterval: logInterval, 
+                    logPath,
+                    rollingInterval: logInterval,
                     rollOnFileSizeLimit: true,
                     fileSizeLimitBytes: 500 * 1000 * 1000,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [SQL] {Message:lj}{NewLine}",
@@ -132,7 +132,7 @@ namespace BulkOperationsEntityFramework.Test
         }
 
         private string FormatParameterValue(object value)
-        { 
+        {
             if (value == null || value == DBNull.Value)
             {
                 return "NULL";
@@ -147,7 +147,7 @@ namespace BulkOperationsEntityFramework.Test
             }
 
             return value.ToString();
-        }        
+        }
 
     }
 }

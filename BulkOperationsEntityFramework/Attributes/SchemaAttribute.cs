@@ -10,7 +10,7 @@ namespace BulkOperationsEntityFramework.Attributes
 
         public SchemaAttribute(string schemaName)
         {
-            _schemaName = schemaName;            
+            _schemaName = schemaName;
         }
 
         public string SchemaName => _schemaName;

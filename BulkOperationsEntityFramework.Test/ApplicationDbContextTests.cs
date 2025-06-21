@@ -5,15 +5,11 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BulkOperationsEntityFramework.Test
@@ -101,13 +97,13 @@ namespace BulkOperationsEntityFramework.Test
                 Console.WriteLine($"Number of users in in-memory db: {context.Users.Count()}");
             }
         }
-           
+
         [Test]
         public void CanLogDatabaseModificationsEfGeneratedSql()
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Database.Log = Console.Write; 
+                context.Database.Log = Console.Write;
                 var firstUser = context.Users.FirstOrDefault();
                 Console.WriteLine(JsonConvert.SerializeObject(firstUser));
 
@@ -140,7 +136,7 @@ namespace BulkOperationsEntityFramework.Test
             var userIds = Enumerable.Range(0, 2300);
             using (var context = new ApplicationDbContext())
             {
-                context.Database.Log = Console.Write; 
+                context.Database.Log = Console.Write;
 
                 var users = context.Users.Where(x => userIds.Contains(x.Id)).ToList();
                 Assert.That(users.Count, Is.GreaterThan(0));
@@ -180,18 +176,18 @@ namespace BulkOperationsEntityFramework.Test
 
         [Test]
         public void CanLogDatabaseModifications()
+        {
+            using (var context = new ApplicationDbContext())
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    context.Database.Log = Console.Write; // Log SQL to console             
-                    var users = GetUsers(1);
-                    context.Users.AddRange(users);
-                    context.SaveChanges();
-                    var firstUser = context.Users.FirstOrDefault();
-                    Console.WriteLine(JsonConvert.SerializeObject(firstUser));
-                    Assert.Pass("Check test output");
-                }
-       }
+                context.Database.Log = Console.Write; // Log SQL to console             
+                var users = GetUsers(1);
+                context.Users.AddRange(users);
+                context.SaveChanges();
+                var firstUser = context.Users.FirstOrDefault();
+                Console.WriteLine(JsonConvert.SerializeObject(firstUser));
+                Assert.Pass("Check test output");
+            }
+        }
 
         private static readonly Faker Faker = new Faker();
 
