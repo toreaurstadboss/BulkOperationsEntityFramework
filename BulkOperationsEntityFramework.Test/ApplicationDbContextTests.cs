@@ -1,10 +1,12 @@
 ﻿using Bogus;
 using BulkOperationsEntityFramework.Models;
+using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure.Interception;
@@ -142,6 +144,20 @@ namespace BulkOperationsEntityFramework.Test
 
                 var users = context.Users.Where(x => userIds.Contains(x.Id)).ToList();
                 Assert.That(users.Count, Is.GreaterThan(0));
+            }
+        }
+
+        [Test]
+        public void TryReusingOpenDbConnection()
+        {
+            DbConnection conn;
+            using (var context = new ApplicationDbContext())
+            {
+                conn = context.Database.Connection;
+                conn.Open();
+
+                var users = context.Users.Take(12).ToList();
+                users.Count().Should().Be(12);
             }
         }
 
