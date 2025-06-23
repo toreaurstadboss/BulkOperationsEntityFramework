@@ -1,4 +1,5 @@
-﻿using BulkOperationsEntityFramework.Models;
+﻿using BulkOperationsEntityFramework.Conventions;
+using BulkOperationsEntityFramework.Models;
 using BulkOperationsEntityFramework.Test;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,6 +50,8 @@ namespace BulkOperationsEntityFramework
 
         public DbSet<Guest> ArchivedGuests { get; set; }
 
+        public DbSet<Session> Session { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasKey(u => u.Id);
@@ -57,6 +60,8 @@ namespace BulkOperationsEntityFramework
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(255)); // Set max length for all string properties
 
             modelBuilder.ApplyCustomCodeConventions(this); // Apply custom code conventions based on DbSet types. Pass in db context.
+
+            modelBuilder.Conventions.Add(new GuidKeyConvention());
 
             //modelBuilder.Types().Where(p => p.GetCustomAttributes(false).OfType<SchemaAttribute>().Any())
             //    .Configure(t => t.ToTable(t.ClrType.Name, t.ClrType.GetCustomAttribute<SchemaAttribute>().SchemaName ?? "dbo")); //add support for setting Schema via Schema attribute using custom code convention
