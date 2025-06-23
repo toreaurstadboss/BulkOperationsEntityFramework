@@ -8,6 +8,7 @@ using System;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Data.Entity.SqlServer;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace BulkOperationsEntityFramework.Test
         [Test]
         public void CanLogWithoutLogProperty()
         {
+
             using (var context = new ApplicationDbContext())
             {
                 var user = context.Users.FirstOrDefault();
@@ -42,6 +44,7 @@ namespace BulkOperationsEntityFramework.Test
                 context.Users.Remove(lastAddedUser);
 
                 context.SaveChanges();
+
             }
         }
 

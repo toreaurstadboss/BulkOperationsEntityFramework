@@ -5,11 +5,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 
 namespace BulkOperationsEntityFramework
 {
 
+    public class ApplicationDbModelConfiguration : DbConfiguration
+    {
+
+        public ApplicationDbModelConfiguration()
+        {
+            SetExecutionStrategy(SqlProviderServices.ProviderInvariantName, () =>
+             new CustomSqlAzureExecutionStrategy(maxRetryCount: 10, maxDelay: TimeSpan.FromSeconds(5))); //note : max total delay of retries is 30 seconds per default in SQL Server
+        }
+
+    }
+
+    [DbConfigurationType(typeof(ApplicationDbModelConfiguration))]
     public class ApplicationDbContext : DbContext
     {
 
@@ -17,6 +30,7 @@ namespace BulkOperationsEntityFramework
         {
             if (!AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.StartsWith("Effort")))
             {
+                DbInterception.Add(new TransientFailureInterceptor()); //add an interceptor that simulates a transient connection error occuring (30% chance of it happening)
                 DbInterception.Add(new SerilogCommandInterceptor()); //do not add logging if EF6 Effor is used (for unit testing)
             }
         }
