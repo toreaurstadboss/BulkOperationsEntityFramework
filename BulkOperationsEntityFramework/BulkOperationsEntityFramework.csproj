@@ -194,6 +194,7 @@
     <Compile Include="Attributes\SchemaAttribute.cs" />
     <Compile Include="Benchmarks\BulkInsertBenchmark.cs" />
     <Compile Include="Conventions\GuidKeyConvention.cs" />
+    <Compile Include="Conventions\SchemaConvention.cs" />
     <Compile Include="CustomSqlAzureExecutionStrategy.cs" />
     <Compile Include="Migrations\202505312054150_Users.cs" />
     <Compile Include="Migrations\202505312054150_Users.Designer.cs">
@@ -203,27 +204,19 @@
     <Compile Include="Migrations\202506152108171_MaxStringLengthSetTo255.Designer.cs">
       <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202506152129419_ArchivedUser.cs" />
-    <Compile Include="Migrations\202506152129419_ArchivedUser.Designer.cs">
-      <DependentUpon>202506152129419_ArchivedUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202506152202006_Guest.cs" />
-    <Compile Include="Migrations\202506152202006_Guest.Designer.cs">
-      <DependentUpon>202506152202006_Guest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202506232213362_Sessions.cs" />
-    <Compile Include="Migrations\202506232213362_Sessions.Designer.cs">
-      <DependentUpon>202506232213362_Sessions.cs</DependentUpon>
+    <Compile Include="Migrations\202506232306243_SessionsAndGuests.cs" />
+    <Compile Include="Migrations\202506232306243_SessionsAndGuests.Designer.cs">
+      <DependentUpon>202506232306243_SessionsAndGuests.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="ModelBuilderExtensions.cs" />
+    <Compile Include="Extensions\ModelBuilderExtensions.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\ArchivedUser.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="SerilogCommandInterceptor.cs" />
+    <Compile Include="Interceptors\SerilogCommandInterceptor.cs" />
     <Compile Include="TransientFailureInterceptor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -241,14 +234,8 @@
     <EmbeddedResource Include="Migrations\202506152108171_MaxStringLengthSetTo255.resx">
       <DependentUpon>202506152108171_MaxStringLengthSetTo255.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202506152129419_ArchivedUser.resx">
-      <DependentUpon>202506152129419_ArchivedUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202506152202006_Guest.resx">
-      <DependentUpon>202506152202006_Guest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202506232213362_Sessions.resx">
-      <DependentUpon>202506232213362_Sessions.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202506232306243_SessionsAndGuests.resx">
+      <DependentUpon>202506232306243_SessionsAndGuests.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

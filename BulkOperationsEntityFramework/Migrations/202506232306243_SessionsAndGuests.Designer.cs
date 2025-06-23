@@ -7,13 +7,13 @@ namespace BulkOperationsEntityFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class Sessions : IMigrationMetadata
+    public sealed partial class SessionsAndGuests : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Sessions));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SessionsAndGuests));
         
         string IMigrationMetadata.Id
         {
-            get { return "202506232213362_Sessions"; }
+            get { return "202506232306243_SessionsAndGuests"; }
         }
         
         string IMigrationMetadata.Source

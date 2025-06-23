@@ -59,8 +59,9 @@ namespace BulkOperationsEntityFramework
 
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(255)); // Set max length for all string properties
 
-            modelBuilder.ApplyCustomCodeConventions(this); // Apply custom code conventions based on DbSet types. Pass in db context.
+            //modelBuilder.ApplyCustomCodeConventions(this); // Apply custom code conventions based on DbSet types. Pass in db context.
 
+            modelBuilder.Conventions.Add(new SchemaConvention());
             modelBuilder.Conventions.Add(new GuidKeyConvention());
 
             //modelBuilder.Types().Where(p => p.GetCustomAttributes(false).OfType<SchemaAttribute>().Any())
