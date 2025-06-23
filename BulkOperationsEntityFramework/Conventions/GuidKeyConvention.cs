@@ -21,7 +21,7 @@ namespace BulkOperationsEntityFramework.Conventions
                 {
                     t.HasKey(keyProperty);
                 }
-            });            
+            });
         }
     }
 

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Data.SqlClient;
 using System.Diagnostics;
 
 namespace BulkOperationsEntityFramework
 {
-  
+
     public class TransientFailureInterceptor : DbCommandInterceptor
     {
         private static readonly Random _random = new Random();
@@ -33,7 +32,7 @@ namespace BulkOperationsEntityFramework
         {
             // Simulate a transient failure 20% of the time
             if (_random.NextDouble() < 0.2)
-            {            
+            {
                 var ex = new SimulatedTransientSqlException();
                 string info = "Throwing a transient SqlException. ";
                 Trace.WriteLine($"{info} {ex.ToString()}");
@@ -42,10 +41,10 @@ namespace BulkOperationsEntityFramework
         }
     }
 
-        public class SimulatedTransientSqlException : Exception
-        {
-            public SimulatedTransientSqlException()
-            : base("Simulated transient SQL exception.") { }
-        }  
+    public class SimulatedTransientSqlException : Exception
+    {
+        public SimulatedTransientSqlException()
+        : base("Simulated transient SQL exception.") { }
+    }
 
 }
