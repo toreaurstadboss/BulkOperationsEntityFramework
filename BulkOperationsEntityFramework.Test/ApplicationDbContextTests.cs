@@ -46,7 +46,6 @@ namespace BulkOperationsEntityFramework.Test
                 context.Users.Remove(lastAddedUser);
 
                 context.SaveChanges();
-
             }
         }
 
@@ -110,7 +109,7 @@ namespace BulkOperationsEntityFramework.Test
                 yield return new TestCaseData("Rot", "Røter");
 
                 // _wordsChangingVowelToÆ
-                yield return new TestCaseData("Håndkle", "Håndkler");
+                yield return new TestCaseData("Håndkle", "Håndklær");
                 yield return new TestCaseData("Kne", "Knær");
 
                 // _wordsForUnits (should not pluralize)

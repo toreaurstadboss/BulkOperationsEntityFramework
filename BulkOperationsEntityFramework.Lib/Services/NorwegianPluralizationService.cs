@@ -72,6 +72,10 @@ namespace BulkOperationsEntityFramework.Lib.Services
             
             if (_wordsChangingVowelToÆ.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
+                if (word.Equals("Håndkle", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Håndklær"; // special case for 'håndkle' => 'håndklær'
+                }
                 return word.Replace("å", "æ").Replace("e", "æ") + "r"; // for words changing vowel to 'æ', e.g. 'håndkle' => 'håndkler', 'kne' => 'knær', 'tre' => 'trær', 'tå' => 'tær'
             }
             if (_wordsForUnits.Contains(word, StringComparer.OrdinalIgnoreCase))
@@ -98,6 +102,8 @@ namespace BulkOperationsEntityFramework.Lib.Services
                         return "Svigerbrødre"; // 'svigerbror' => 'svigerbrødre'    
                     case "svigerfar":
                         return "Svigerfedre"; // 'svigerfar' => 'svigerfedre'   
+                    case "svigersøster":
+                        return "Svigersøstre"; // 'svigersøster' => 'svigerøstre'    
                     case "svigermor":
                         return "Svigermødre"; // 'svigermor' => 'svigermødre'   
                     case "bror":
@@ -124,7 +130,7 @@ namespace BulkOperationsEntityFramework.Lib.Services
             }
             if (_wordChangingVowelsInPluralFemale.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
-                return word.Replace("a", "e") + "er"; // for words changing vowels in plural, e.g. 'natt' => 'netter', 'hand' => 'hender'
+                return NormalizeWord(word.ToLower().Replace("å", "e").Replace("a", "e") + "er"); // for words changing vowels in plural, e.g. 'natt' => 'netter', 'hand' => 'hender'
             }
             if (_wordsChangingVowelsInPluralMale.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
