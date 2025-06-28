@@ -68,16 +68,8 @@ namespace BulkOperationsEntityFramework.Lib.Services
             {
                 return _specialCases[word]; // Handle special cases first
             }
-
-            // Simple example: add 'er' for most nouns (not comprehensive)
-            if (word.EndsWith("e"))
-            {
-                return word + "r";
-            }
-            if (word.EndsWith("en"))
-            {
-                return word + "er";
-            }
+            // Handle words that should use special pluralization rules next
+            
             if (_wordsChangingVowelToÆ.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
                 return word.Replace("å", "æ").Replace("e", "æ") + "r"; // for words changing vowel to 'æ', e.g. 'håndkle' => 'håndkler', 'kne' => 'knær', 'tre' => 'trær', 'tå' => 'tær'
@@ -137,9 +129,9 @@ namespace BulkOperationsEntityFramework.Lib.Services
             if (_wordsChangingVowelsInPluralMale.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
                 string rewrittenWord = NormalizeWord(word.Replace("o", "ø")); // for words changing vowels in plural, e.g. 'bok' => 'bøker'. Normalize once more to be sure we capitalize first letter.
-                if (rewrittenWord.Equals("føt"))
+                if (rewrittenWord.Equals("føt", StringComparison.OrdinalIgnoreCase))
                 {
-                    rewrittenWord = rewrittenWord + "ter"; //  'fot' => 'føtter'
+                    return rewrittenWord + "ter"; //  'fot' => 'føtter'
                 }
                 if (rewrittenWord.EndsWith("e")) // check if the rewritten word ends with 'e' after vowel change
                 {
@@ -150,16 +142,28 @@ namespace BulkOperationsEntityFramework.Lib.Services
                     return rewrittenWord + "er"; // for words changing vowels in plural, e.g. 'bok' => 'bøker'
                 }
             }
-            if (word.EndsWith("er"))
-            {
-                return word.Substring(0, word.Length - 2) + "ere"; // for words ending with 'er' => plural : 'ere'
-            }
             if (_nonEndingWordsInPlural.Contains(word, StringComparer.OrdinalIgnoreCase))
             {
                 return word; // Return the word as is for non-ending words in plural
             }
-            if (word.EndsWith("el")){
+
+            // Handle the general pluralization rules for cases where no specific rules apply
+            if (word.EndsWith("er"))
+            {
+                return word.Substring(0, word.Length - 2) + "ere"; // for words ending with 'er' => plural : 'ere'
+            }
+
+            if (word.EndsWith("el"))
+            {
                 return word.Substring(0, word.Length - 2) + "ler"; // for words ending with 'el' => plural : 'ler'
+            }
+            if (word.EndsWith("e"))
+            {
+                return word + "r";
+            }
+            if (word.EndsWith("en"))
+            {
+                return word + "er";
             }
             return word + "er";
         }
