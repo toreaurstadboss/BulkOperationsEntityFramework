@@ -99,6 +99,49 @@ namespace BulkOperationsEntityFramework.Test
                 yield return new TestCaseData("Tre", "Trær");
                 yield return new TestCaseData("Kne", "Knær");
                 yield return new TestCaseData("Bonde", "Bønder");
+
+                // _nonEndingWordsInPlural
+                yield return new TestCaseData("Mus", "Mus");
+                yield return new TestCaseData("Ski", "Ski");
+                yield return new TestCaseData("Feil", "Feil");
+
+                // _wordsChangingVowelsInPluralMale
+                yield return new TestCaseData("Bot", "Bøter");
+                yield return new TestCaseData("Rot", "Røter");
+
+                // _wordsChangingVowelToÆ
+                yield return new TestCaseData("Håndkle", "Håndkler");
+                yield return new TestCaseData("Kne", "Knær");
+
+                // _wordsForUnits (should not pluralize)
+                yield return new TestCaseData("Meter", "Meter");
+                yield return new TestCaseData("Gram", "Gram");
+                yield return new TestCaseData("Dollar", "Dollar");
+
+                // _wordChangingVowelsInPluralFemale
+                yield return new TestCaseData("And", "Ender");
+                yield return new TestCaseData("Hånd", "Hender");
+                yield return new TestCaseData("Stang", "Stenger");
+                yield return new TestCaseData("Strand", "Strender");
+                yield return new TestCaseData("Tang", "Tenger");
+                yield return new TestCaseData("Tann", "Tenner");
+
+                // _wordsForRelatives (some already covered, but add missing)
+                yield return new TestCaseData("Fetter", "Fettere");
+                yield return new TestCaseData("Onkel", "Onkler");
+                yield return new TestCaseData("Svigerbror", "Svigerbrødre");
+                yield return new TestCaseData("Svigerfar", "Svigerfedre");
+                yield return new TestCaseData("Svigermor", "Svigermødre");
+                yield return new TestCaseData("Svigersøster", "Svigersøstre");
+
+                // _wordsNoPluralizationForNeutralGenderOneSyllable
+                yield return new TestCaseData("Hus", "Hus");
+                yield return new TestCaseData("Blad", "Blad");
+
+                // _wordsNeutralGenderEndingWithEumOrIum
+                yield return new TestCaseData("Museum", "Museer");
+                yield return new TestCaseData("Jubileum", "Jubileer");
+                yield return new TestCaseData("Kjemikalium", "Kjemikalier");
             }
         }
 
