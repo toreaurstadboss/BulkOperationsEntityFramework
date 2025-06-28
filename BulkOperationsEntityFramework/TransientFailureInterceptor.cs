@@ -30,8 +30,9 @@ namespace BulkOperationsEntityFramework
 
         private void SimulateTransientFailure<TResult>(DbCommandInterceptionContext<TResult> context)
         {
-            // Simulate a transient failure 20% of the time
-            if (_random.NextDouble() < 0.2)
+            // Simulate a transient failure 10% of the time
+            double r = _random.NextDouble();
+            if (r < 0.1)
             {
                 var ex = new SimulatedTransientSqlException();
                 string info = "Throwing a transient SqlException. ";

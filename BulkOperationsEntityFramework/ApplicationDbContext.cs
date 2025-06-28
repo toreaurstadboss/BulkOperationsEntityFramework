@@ -11,7 +11,7 @@ using System.Linq;
 namespace BulkOperationsEntityFramework
 {
 
-    [DbConfigurationType(typeof(ApplicationDbModelConfiguration))]
+    [DbConfigurationType(typeof(ApplicationDbConfiguration))]
     public class ApplicationDbContext : DbContext
     {
 

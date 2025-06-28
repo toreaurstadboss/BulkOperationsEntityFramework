@@ -191,7 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="ApplicationDbModelConfiguration.cs" />
+    <Compile Include="ApplicationDbConfiguration.cs" />
     <Compile Include="Attributes\SchemaAttribute.cs" />
     <Compile Include="Benchmarks\BulkInsertBenchmark.cs" />
     <Compile Include="Conventions\GuidKeyConvention.cs" />
