@@ -59,6 +59,14 @@ namespace BulkOperationsEntityFramework.Test
             pluralizedWord.Should().Be(expected, "Norwegian Pluralization service should return the correct plural form of the word.");
         }
 
+        [Test, TestCaseSource(nameof(NorwegianSingularizationCases))]
+        public void NorwegianPluralizationService_CanSingularize(string plural, string expectedSingular)
+        {
+            var norwegianPluralizationService = new NorwegianPluralizationService();
+
+            var actual = norwegianPluralizationService.Singularize(plural);
+            Assert.That(actual, Is.EqualTo(expectedSingular), $"Expected singular of '{plural}' to be '{expectedSingular}', but got '{actual}'.");
+        }
 
         public static IEnumerable<TestCaseData> NorwegianPluralizationCases
         {
@@ -91,6 +99,40 @@ namespace BulkOperationsEntityFramework.Test
                 yield return new TestCaseData("Tre", "Trær");
                 yield return new TestCaseData("Kne", "Knær");
                 yield return new TestCaseData("Bonde", "Bønder");
+            }
+        }
+
+        public static IEnumerable<TestCaseData> NorwegianSingularizationCases
+        {
+            get
+            {
+                yield return new TestCaseData("Biler", "Bil");
+                yield return new TestCaseData("Bøker", "Bok");
+                yield return new TestCaseData("Hunder", "Hund");
+                yield return new TestCaseData("Stoler", "Stol");
+                yield return new TestCaseData("Jenter", "Jente");
+                yield return new TestCaseData("Gutter", "Gutt");
+                yield return new TestCaseData("Lærere", "Lærer");
+                yield return new TestCaseData("Barn", "Barn");
+                yield return new TestCaseData("Fjell", "Fjell");
+                yield return new TestCaseData("Sko", "Sko");
+                yield return new TestCaseData("Ting", "Ting");
+                yield return new TestCaseData("Menn", "Mann");
+                yield return new TestCaseData("Kvinner", "Kvinne");
+                yield return new TestCaseData("Brødre", "Bror");
+                yield return new TestCaseData("Fedre", "Far");
+                yield return new TestCaseData("Mødre", "Mor");
+                yield return new TestCaseData("Døtre", "Datter");
+                yield return new TestCaseData("Søstre", "Søster");
+                yield return new TestCaseData("Øyne", "Øye");
+                yield return new TestCaseData("Hender", "Hand");
+                yield return new TestCaseData("Føtter", "Fot");
+                yield return new TestCaseData("Tær", "Tå");
+                yield return new TestCaseData("Tenner", "Tann");
+                yield return new TestCaseData("Netter", "Natt");
+                yield return new TestCaseData("Trær", "Tre");
+                yield return new TestCaseData("Knær", "Kne");
+                yield return new TestCaseData("Bønder", "Bonde");
             }
         }
 

@@ -171,9 +171,64 @@ namespace BulkOperationsEntityFramework.Lib.Services
         public string Singularize(string word)
         {
             word = NormalizeWord(word);
-            // Simple example: remove 'er' if present (not comprehensive)
+
+            // Reverse special cases
+            var specialSingular = _specialCases.FirstOrDefault(kvp => kvp.Value.Equals(word, StringComparison.OrdinalIgnoreCase));
+            if (!specialSingular.Equals(default(KeyValuePair<string, string>)))
+                return specialSingular.Key;
+
+            // Words that are the same in singular and plural
+            if (_nonEndingWordsInPlural.Contains(word, StringComparer.OrdinalIgnoreCase) ||
+                _wordsNoPluralizationForNeutralGenderOneSyllable.Contains(word, StringComparer.OrdinalIgnoreCase) ||
+                _wordsForUnits.Contains(word, StringComparer.OrdinalIgnoreCase))
+                return word;
+
+            // Irregulars and vowel changes (expand as needed)
+            if (word.Equals("Bøker", StringComparison.OrdinalIgnoreCase)) return "Bok";
+            if (word.Equals("Føtter", StringComparison.OrdinalIgnoreCase)) return "Fot";
+            if (word.Equals("Brødre", StringComparison.OrdinalIgnoreCase)) return "Bror";
+            if (word.Equals("Menn", StringComparison.OrdinalIgnoreCase)) return "Mann";
+            if (word.Equals("Kvinner", StringComparison.OrdinalIgnoreCase)) return "Kvinne";
+            if (word.Equals("Gutter", StringComparison.OrdinalIgnoreCase)) return "Gutt";
+            if (word.Equals("Netter", StringComparison.OrdinalIgnoreCase)) return "Natt";
+            if (word.Equals("Tær", StringComparison.OrdinalIgnoreCase)) return "Tå";
+            if (word.Equals("Tenner", StringComparison.OrdinalIgnoreCase)) return "Tann";
+            if (word.Equals("Trær", StringComparison.OrdinalIgnoreCase)) return "Tre";
+            if (word.Equals("Knær", StringComparison.OrdinalIgnoreCase)) return "Kne";
+            if (word.Equals("Bønder", StringComparison.OrdinalIgnoreCase)) return "Bonde";
+            if (word.Equals("Hender", StringComparison.OrdinalIgnoreCase)) return "Hand";
+            if (word.Equals("Døtre", StringComparison.OrdinalIgnoreCase)) return "Datter";
+            if (word.Equals("Fedre", StringComparison.OrdinalIgnoreCase)) return "Far";
+            if (word.Equals("Mødre", StringComparison.OrdinalIgnoreCase)) return "Mor";
+            if (word.Equals("Søstre", StringComparison.OrdinalIgnoreCase)) return "Søster";
+            if (word.Equals("Øyne", StringComparison.OrdinalIgnoreCase)) return "Øye";
+
+            // "ler" ending (from "el")
+            if (word.EndsWith("ler"))
+            {
+                return word.Substring(0, word.Length - 2);
+            }
+            if (word.EndsWith("ter"))
+            {
+                return word.Substring(0, word.Length - 1);
+            }
+
+            // "ere" ending (from "er" ending in singular, e.g. "Lærere" -> "Lærer")
+            if (word.EndsWith("ere"))
+                return word.Substring(0, word.Length - 1);
+
+            // "er" ending (general case, e.g. "Biler" -> "Bil", "Stoler" -> "Stol", "Jenter" -> "Jente")
             if (word.EndsWith("er"))
                 return word.Substring(0, word.Length - 2);
+
+            // "r" ending (from "e" ending in singular, e.g. "Jenter" -> "Jente" already handled above)
+            if (word.EndsWith("r"))
+            {
+                var possibleSingular = word.Substring(0, word.Length - 1);
+                return possibleSingular;
+            }
+
+            // Default: return as is
             return word;
         }
 
@@ -191,15 +246,6 @@ namespace BulkOperationsEntityFramework.Lib.Services
             }
             return word.Substring(0, 1).ToUpper() + word.Trim().ToLower().Substring(1);
         }
-
-        public bool IsPlural(string word)
-        {
-            return word.EndsWith("er");
-        }
-
-        public bool IsSingular(string word)
-        {
-            return !IsPlural(word);
-        }
+        
     }
 }
