@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using BulkOperationsEntityFramework.Lib.Services;
 using BulkOperationsEntityFramework.Models;
 using FluentAssertions;
 using Moq;
@@ -8,6 +9,7 @@ using System;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Data.Entity.Infrastructure.Pluralization;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,6 +47,15 @@ namespace BulkOperationsEntityFramework.Test
                 context.SaveChanges();
 
             }
+        }
+
+        [Test]
+        [TestCase("Kabel", "Kabler")]
+        public void CanUsePluralizationService(string word, string expected)
+        {
+            var norwegianPluralizationService = new NorwegianPluralizationService();
+            string pluralizedWord = norwegianPluralizationService.Pluralize(word);
+            pluralizedWord.Should().Be(expected, "Norwegian Pluralization service should return the correct plural form of the word.");
         }
 
         [Test]
