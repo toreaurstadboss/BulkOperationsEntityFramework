@@ -1,4 +1,5 @@
 using BulkOperationsEntityFramework.Attributes;
+using BulkOperationsEntityFramework.Lib.Services;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Reflection;
@@ -9,7 +10,7 @@ namespace BulkOperationsEntityFramework.Conventions
     {
         public SchemaConvention()
         {
-            var pluralizer = new EnglishPluralizationService();
+            var pluralizer = new NorwegianPluralizationService();
 
             Types().Configure(c =>
             {

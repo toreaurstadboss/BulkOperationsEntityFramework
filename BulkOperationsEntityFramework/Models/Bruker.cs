@@ -1,10 +1,7 @@
-﻿using BulkOperationsEntityFramework.Attributes;
-
-namespace BulkOperationsEntityFramework.Models
+﻿namespace BulkOperationsEntityFramework.Models
 {
 
-    [Schema("Archive")]
-    public class ArchivedUser
+    public class Bruker
     {
 
         public int Id { get; set; }

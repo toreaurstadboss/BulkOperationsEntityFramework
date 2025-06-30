@@ -3,8 +3,8 @@
 namespace BulkOperationsEntityFramework.Models
 {
 
-    [Schema("Arkiv")]
-    public class Guest
+    [Schema("Archive")]
+    public class ArkivertBruker
     {
 
         public int Id { get; set; }
@@ -14,6 +14,8 @@ namespace BulkOperationsEntityFramework.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string PhoneNumber { get; set; }
 
     }
 }

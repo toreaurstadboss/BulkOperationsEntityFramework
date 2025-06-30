@@ -29,7 +29,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
             {
                 foreach (var user in GetUsers())
                 {
-                    context.Users.Add(user);
+                    context.Bruker.Add(user);
                     await context.SaveChangesAsync();
                 }
             }
@@ -42,7 +42,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
             {
                 foreach (var user in GetUsers())
                 {
-                    context.Users.Add(user);
+                    context.Bruker.Add(user);
 
                 }
                 await context.SaveChangesAsync();
@@ -55,7 +55,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
             using (var context = new ApplicationDbContext())
             {
                 var users = GetUsers();
-                context.Users.AddRange(users);
+                context.Bruker.AddRange(users);
                 await context.SaveChangesAsync();
             }
         }
@@ -66,7 +66,7 @@ namespace BulkOperationsEntityFramework.Benchmarks
             var connectionString = ConfigurationManager.ConnectionStrings["App"].ConnectionString;
 
             string sql = @"
-                INSERT INTO Users (Email, FirstName, LastName, PhoneNumber)
+                INSERT INTO Brukere (Email, FirstName, LastName, PhoneNumber)
                 VALUES (@Email, @FirstName, @LastName, @PhoneNumber)
             ".Trim();
 
@@ -89,14 +89,14 @@ namespace BulkOperationsEntityFramework.Benchmarks
         {
             using (var context = new ApplicationDbContext())
             {
-                await context.BulkInsertAsync(GetUsers(), "Users");
+                await context.BulkInsertAsync(GetUsers(), "Brukere");
             }
         }
 
 
 
-        private User[] GetUsers() =>
-            Enumerable.Range(1, Size).Select(i => new User
+        private Bruker[] GetUsers() =>
+            Enumerable.Range(1, Size).Select(i => new Bruker
             {
                 Email = Faker.Internet.Email(),
                 FirstName = Faker.Name.FirstName(),

@@ -7,13 +7,13 @@ namespace BulkOperationsEntityFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class MaxStringLengthSetTo255 : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MaxStringLengthSetTo255));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "202506152108171_MaxStringLengthSetTo255"; }
+            get { return "202506292302222_Init"; }
         }
         
         string IMigrationMetadata.Source

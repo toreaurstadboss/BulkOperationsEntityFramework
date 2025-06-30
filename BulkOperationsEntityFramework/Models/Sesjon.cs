@@ -2,7 +2,7 @@
 
 namespace BulkOperationsEntityFramework.Models
 {
-    public class Session
+    public class Sesjon
     {
 
         public Guid Key { get; set; } // Primary key by convention

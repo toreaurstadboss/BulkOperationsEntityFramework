@@ -28,22 +28,22 @@ namespace BulkOperationsEntityFramework.Test
 
             using (var context = new ApplicationDbContext())
             {
-                var user = context.Users.FirstOrDefault();
+                var user = context.Bruker.FirstOrDefault();
                 //Assert.Inconclusive("Check test output");
                 Assert.That(user, Is.Not.Null, "User should not be null");
 
-                var userById = context.Users.Find(2);
+                var userById = context.Bruker.Find(2);
                 Assert.That(userById, Is.Not.Null, "User by id should not be null");
 
                 userById.PhoneNumber = Faker.Phone.PhoneNumber();
 
-                var moreUsers = GetUsers(4);
-                context.Users.AddRange(moreUsers);
+                var moreBruker = GetBruker(4);
+                context.Bruker.AddRange(moreBruker);
 
                 context.SaveChanges();
 
-                var lastAddedUser = moreUsers.Last();
-                context.Users.Remove(lastAddedUser);
+                var lastAddedUser = moreBruker.Last();
+                context.Bruker.Remove(lastAddedUser);
 
                 context.SaveChanges();
             }
@@ -182,7 +182,7 @@ namespace BulkOperationsEntityFramework.Test
         public void CanMockUser()
         {
             var mockContext = new Mock<ApplicationDbContext>();
-            mockContext.Setup(x => x.Users.Find(It.IsAny<int>())).Returns(new User
+            mockContext.Setup(x => x.Bruker.Find(It.IsAny<int>())).Returns(new Bruker
             {
                 Id = 1,
                 FirstName = "Test",
@@ -190,7 +190,7 @@ namespace BulkOperationsEntityFramework.Test
 
             });
 
-            var user = mockContext.Object.Users.Find(12);
+            var user = mockContext.Object.Bruker.Find(12);
             Assert.That(user, Is.Not.Null, "Mocked user should not be null");
             Assert.That(user.FirstName, Is.EqualTo("Test"), "First name should be 'Test'");
             Assert.That(user.LastName, Is.EqualTo("MyUser"), "Last name should be 'MyUser'");
@@ -211,7 +211,7 @@ namespace BulkOperationsEntityFramework.Test
                 DbInterception.Remove(new SerilogCommandInterceptor()); // Remove the interceptor to avoid logging in Effort
 
                 // Seed data  
-                context.Users.Add(new User
+                context.Bruker.Add(new Bruker
                 {
                     Id = 1,
                     FirstName = "Test",
@@ -220,14 +220,14 @@ namespace BulkOperationsEntityFramework.Test
                 context.SaveChanges();
 
                 // Act  
-                var user = context.Users.Find(1);
+                var user = context.Bruker.Find(1);
 
                 // Assert  
                 Assert.That(user, Is.Not.Null, "Mocked user should not be null");
                 Assert.That(user.FirstName, Is.EqualTo("Test"), "First name should be 'Test'");
                 Assert.That(user.LastName, Is.EqualTo("MyUser"), "Last name should be 'MyUser'");
 
-                Console.WriteLine($"Number of users in in-memory db: {context.Users.Count()}");
+                Console.WriteLine($"Number of users in in-memory db: {context.Bruker.Count()}");
             }
         }
 
@@ -237,17 +237,17 @@ namespace BulkOperationsEntityFramework.Test
             using (var context = new ApplicationDbContext())
             {
                 context.Database.Log = Console.Write;
-                var firstUser = context.Users.FirstOrDefault();
+                var firstUser = context.Bruker.FirstOrDefault();
                 Console.WriteLine(JsonConvert.SerializeObject(firstUser));
 
-                var userById = context.Users.Find(2);
+                var userById = context.Bruker.Find(2);
                 Assert.Pass("Check test output");
             }
         }
 
         [Test]
         [Ignore("This test should not be run in case of Benchmark has been run, as the target database table will contain many rows")]
-        public async Task TestAsyncFetchOfUsers()
+        public async Task TestAsyncFetchOfBruker()
         {
             using (var context = new ApplicationDbContext())
             {
@@ -255,7 +255,7 @@ namespace BulkOperationsEntityFramework.Test
                 {
                     var stopWatch = Stopwatch.StartNew();
 
-                    var user = await context.Users.FindAsync(i);
+                    var user = await context.Bruker.FindAsync(i);
                     Assert.That(user, Is.Not.Null);
                     Console.WriteLine($"The test took: {stopWatch.ElapsedMilliseconds} ms");
 
@@ -271,7 +271,7 @@ namespace BulkOperationsEntityFramework.Test
             {
                 context.Database.Log = Console.Write;
 
-                var users = context.Users.Where(x => userIds.Contains(x.Id)).ToList();
+                var users = context.Bruker.Where(x => userIds.Contains(x.Id)).ToList();
                 Assert.That(users.Count, Is.GreaterThan(0));
             }
         }
@@ -285,13 +285,13 @@ namespace BulkOperationsEntityFramework.Test
                 conn = context.Database.Connection;
                 conn.Open();
 
-                var users = context.Users.Take(12).ToList();
+                var users = context.Bruker.Take(12).ToList();
                 users.Count().Should().Be(12);
             }
         }
 
         [Test]
-        public async Task TestAsyncFetchOfListOfUsers()
+        public async Task TestAsyncFetchOfListOfBruker()
         {
             using (var context = new ApplicationDbContext())
             {
@@ -299,7 +299,7 @@ namespace BulkOperationsEntityFramework.Test
                 {
                     var stopWatch = Stopwatch.StartNew();
 
-                    var users = await context.Users.ToListAsync();
+                    var users = await context.Bruker.ToListAsync();
                     Assert.That(users, Is.Not.Null);
                     Console.WriteLine($"The test took: {stopWatch.ElapsedMilliseconds} ms");
 
@@ -313,10 +313,10 @@ namespace BulkOperationsEntityFramework.Test
             using (var context = new ApplicationDbContext())
             {
                 context.Database.Log = Console.Write; // Log SQL to console             
-                var users = GetUsers(1);
-                context.Users.AddRange(users);
+                var users = GetBruker(1);
+                context.Bruker.AddRange(users);
                 context.SaveChanges();
-                var firstUser = context.Users.FirstOrDefault();
+                var firstUser = context.Bruker.FirstOrDefault();
                 Console.WriteLine(JsonConvert.SerializeObject(firstUser));
                 Assert.Pass("Check test output");
             }
@@ -324,8 +324,8 @@ namespace BulkOperationsEntityFramework.Test
 
         private static readonly Faker Faker = new Faker();
 
-        private User[] GetUsers(int size) =>
-            Enumerable.Range(1, size).Select(i => new User
+        private Bruker[] GetBruker(int size) =>
+            Enumerable.Range(1, size).Select(i => new Bruker
             {
                 Email = Faker.Internet.Email(),
                 FirstName = Faker.Name.FirstName(),
