@@ -1,5 +1,4 @@
-﻿ using BulkOperationsEntityFramework.Conventions;
-using BulkOperationsEntityFramework.Lib.Services;
+﻿using BulkOperationsEntityFramework.Conventions;
 using BulkOperationsEntityFramework.Models;
 using BulkOperationsEntityFramework.Test;
 using System;
@@ -7,7 +6,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 
 namespace BulkOperationsEntityFramework
@@ -45,8 +43,8 @@ namespace BulkOperationsEntityFramework
         public DbSet<Jubileum> Jubileum { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        { 
-            
+        {
+
             modelBuilder.Entity<Bruker>().HasKey(u => u.Id);
             modelBuilder.Entity<Bruker>().Property(u => u.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 

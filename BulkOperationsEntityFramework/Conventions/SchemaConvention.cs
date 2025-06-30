@@ -1,6 +1,5 @@
 using BulkOperationsEntityFramework.Attributes;
 using BulkOperationsEntityFramework.Lib.Services;
-using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Reflection;
 

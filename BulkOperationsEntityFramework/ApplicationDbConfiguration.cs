@@ -13,7 +13,7 @@ namespace BulkOperationsEntityFramework
             SetExecutionStrategy(SqlProviderServices.ProviderInvariantName, () =>
              new CustomSqlAzureExecutionStrategy(maxRetryCount: 10, maxDelay: TimeSpan.FromSeconds(5))); //note : max total delay of retries is 30 seconds per default in SQL Server
 
-            SetPluralizationService(new NorwegianPluralizationService());            
+            SetPluralizationService(new NorwegianPluralizationService());
         }
 
     }

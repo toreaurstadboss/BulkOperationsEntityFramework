@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
-using System.Diagnostics;
 using System.Linq;
 
 namespace BulkOperationsEntityFramework.Lib.Services
@@ -23,10 +22,10 @@ namespace BulkOperationsEntityFramework.Lib.Services
                 return word; // Return the already pluralized word
             }
 
-//#if DEBUG
-//            Debugger.Break();
-//            Debugger.Launch(); // Uncomment this line to break into the debugger when this method is called, for example when database migrations are made with EF Code First
-//#endif
+            //#if DEBUG
+            //            Debugger.Break();
+            //            Debugger.Launch(); // Uncomment this line to break into the debugger when this method is called, for example when database migrations are made with EF Code First
+            //#endif
 
             word = NormalizeWord(word);
 
@@ -217,7 +216,8 @@ namespace BulkOperationsEntityFramework.Lib.Services
         private string NormalizeWord(string word)
         {
             word = word?.Trim();
-            if (string.IsNullOrEmpty(word) || word.Trim().Length <= 1) {
+            if (string.IsNullOrEmpty(word) || word.Trim().Length <= 1)
+            {
                 return word?.ToUpper();
             }
             return word.Substring(0, 1).ToUpper() + word.Trim().ToLower().Substring(1);
