@@ -1,4 +1,4 @@
-﻿using BulkOperationsEntityFramework.Conventions;
+﻿ using BulkOperationsEntityFramework.Conventions;
 using BulkOperationsEntityFramework.Lib.Services;
 using BulkOperationsEntityFramework.Models;
 using BulkOperationsEntityFramework.Test;
@@ -60,6 +60,8 @@ namespace BulkOperationsEntityFramework
             //modelBuilder.Conventions.Add(new NorwegianPluralizingTableNameConvention());
 
             modelBuilder.HasDefaultSchema("dbo"); // Set default schema for the database
+
+            modelBuilder.Entity<Jubileum>().MapToStoredProcedures();
 
             //modelBuilder.Types().Where(p => p.GetCustomAttributes(false).OfType<SchemaAttribute>().Any())
             //    .Configure(t => t.ToTable(t.ClrType.Name, t.ClrType.GetCustomAttribute<SchemaAttribute>().SchemaName ?? "dbo")); //add support for setting Schema via Schema attribute using custom code convention

@@ -241,6 +241,10 @@
     <Compile Include="Migrations\202506292302222_Init.Designer.cs">
       <DependentUpon>202506292302222_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506302115375_Add Sproc for entity %27Jubileum%27.cs" />
+    <Compile Include="Migrations\202506302115375_Add Sproc for entity %27Jubileum%27.Designer.cs">
+      <DependentUpon>202506302115375_Add Sproc for entity %27Jubileum%27.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Extensions\ModelBuilderExtensions.cs" />
     <Compile Include="Models\Gjest.cs" />
@@ -266,6 +270,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202506292302222_Init.resx">
       <DependentUpon>202506292302222_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506302115375_Add Sproc for entity %27Jubileum%27.resx">
+      <DependentUpon>202506302115375_Add Sproc for entity %27Jubileum%27.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

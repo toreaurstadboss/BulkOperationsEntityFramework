@@ -50,6 +50,21 @@ namespace BulkOperationsEntityFramework.Test
         }
 
         [Test]
+        public void CanUseGeneratedStoredProcedures()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var jubileum = new Jubileum
+                {
+                    Date = DateTime.Now,
+                    Description = "Liberation Day " + Guid.NewGuid().ToString()
+                };
+                context.Jubileum.Add(jubileum);
+                context.SaveChanges();
+            }
+        }
+
+        [Test]
         [TestCaseSource(nameof(NorwegianPluralizationCases))]
         public void CanUsePluralizationService(string word, string expected)
         {
