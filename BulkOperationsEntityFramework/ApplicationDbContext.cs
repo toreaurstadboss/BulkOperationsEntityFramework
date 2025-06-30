@@ -66,7 +66,9 @@ namespace BulkOperationsEntityFramework
             modelBuilder.Entity<Jubileum>().MapToStoredProcedures(
                 s =>
                 {
-                    s.Insert(i => i.HasName("Jubileum_Insert"));
+                    s.Insert(i => i.HasName("Jubileum_Insert")
+                        .Parameter(n => n.Date, "Date")
+                        .Parameter(n => n.Description, "Description"));
                     s.Update(i => i.HasName("Jubileum_Update"));
                     s.Delete(i => i.HasName("Jubileum_Delete"));
                 }
