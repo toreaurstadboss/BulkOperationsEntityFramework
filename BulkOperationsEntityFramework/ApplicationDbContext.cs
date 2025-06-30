@@ -61,7 +61,17 @@ namespace BulkOperationsEntityFramework
 
             modelBuilder.HasDefaultSchema("dbo"); // Set default schema for the database
 
-            modelBuilder.Entity<Jubileum>().MapToStoredProcedures();
+            //modelBuilder.Entity<Jubileum>().MapToStoredProcedures();
+
+            modelBuilder.Entity<Jubileum>().MapToStoredProcedures(
+                s =>
+                {
+                    s.Insert(i => i.HasName("Jubileum_Insert"));
+                    s.Update(i => i.HasName("Jubileum_Update"));
+                    s.Delete(i => i.HasName("Jubileum_Delete"));
+                }
+                );
+
 
             //modelBuilder.Types().Where(p => p.GetCustomAttributes(false).OfType<SchemaAttribute>().Any())
             //    .Configure(t => t.ToTable(t.ClrType.Name, t.ClrType.GetCustomAttribute<SchemaAttribute>().SchemaName ?? "dbo")); //add support for setting Schema via Schema attribute using custom code convention
