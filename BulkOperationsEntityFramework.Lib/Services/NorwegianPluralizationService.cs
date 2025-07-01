@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace BulkOperationsEntityFramework.Lib.Services
 {
@@ -12,8 +14,11 @@ namespace BulkOperationsEntityFramework.Lib.Services
     /// </summary>
     public class NorwegianPluralizationService : IPluralizationService
     {
-
+        private EnglishPluralizationService _englishPluralizationService = new EnglishPluralizationService();
+        
         public static List<string> PluralizedWords = new List<string>();
+
+        private static List<string> EnglishNounsWordList = null;
 
         public string Pluralize(string word)
         {
@@ -29,7 +34,27 @@ namespace BulkOperationsEntityFramework.Lib.Services
 
             word = NormalizeWord(word);
 
+            if (EnglishNounsWordList == null)
+            {
+                EnglishNounsWordList = new List<string>();
+                var assembly = typeof(NorwegianPluralizationService).Assembly;
+                // Adjust the resource name to match your project's default namespace and folder structure
+                var resourceName = "BulkOperationsEntityFramework.Lib.Services.EnglishNouns.txt";
+                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var reader = new StreamReader(stream))
+                {
+                    EnglishNounsWordList.AddRange(reader.ReadToEnd().Split('\n').Select(l => l.Trim()));
+                }
+            }
+
             string pluralizedWord;
+
+            if (EnglishNounsWordList.Contains(word, StringComparer.OrdinalIgnoreCase))
+            {
+                pluralizedWord = _englishPluralizationService.Pluralize(word);
+                PluralizedWords.Add(pluralizedWord);
+                return pluralizedWord;
+            }
 
             if (_specialCases.ContainsKey(word))
             {
